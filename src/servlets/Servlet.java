@@ -25,6 +25,7 @@ public class Servlet extends HttpServlet {
     /**
      * Default constructor. 
      */
+	int i=0;
     public Servlet() {
         // TODO Auto-generated constructor stub
     }
@@ -35,27 +36,36 @@ public class Servlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PrintWriter writer = response.getWriter();
 		writer.write("<html><body><h1> Ich bin eine Überschrift </h1></body></html>");
-		
+		writer.flush();
+		writer.close();
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	HttpSession session;
+	HttpSession session=request.getSession();
 	PrintWriter writer = response.getWriter();
 	ArrayList<String> names = new ArrayList<String>();
 	names.add(request.getParameter("tfVorname"));
 	String ausgabe=ausgeben();
-		
+
+	
+	session.setAttribute(""+ i , request.getParameter("tfVorname"));
+	i++;
+	 String name =(String) session.getAttribute("2");
+	 
 	 writer.write("<html><body><form action=\"/Aufgabe6_Servlet/HtwgBook\" method=\"post\"><h1>Vorname ist " +request.getParameter("tfVorname")+
 				"</h1><td>Zum Name ändern bitte neuen Namen eingeben</td>"
 				+ "<td> <input type=\"text\" value=\"Lisa\" name=\"tfVorname\">"
 				+ "</td> <td><input type=\"submit\" value=\"ändern\" name =\"btaendern\" >"
 				+ "</td></form>"
 				+ "<br>"
+				+ name + "<br>"
 				+ausgabe +"</body></html>");
-		
+	
+		writer.flush();
+		writer.close();
 			
 //
 //		String stimmung = request.getParameter("tfStimmung");
